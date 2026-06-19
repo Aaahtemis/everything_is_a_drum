@@ -14,6 +14,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  background-color: oklch(0.1884 0.028 275.07);
 }
 
 #mpc-container {
@@ -32,6 +33,7 @@ body {
   position: relative;
   border-radius: 15%;
   display: inline-block;
+  background-color: oklch(46.969% 0.141 346.092);
 }
 
 .mpc-pad>.label {
@@ -39,4 +41,6 @@ body {
   bottom: 10px;
   left: 0;
   right: 0;
+  color: white;
+  opacity: 50%;
 }
