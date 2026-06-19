@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <title>Hello World!</title>
     <link rel="stylesheet" href="index.css" />
+    <script src="drumpad.js" type="module"></script>
   </head>
   <body>
     <h1>💖 Hello World!</h1>
     <p>Welcome to your Electron application.</p>
+    <div id="mpc-container" class="mpc">
+      <!-- create the first pad here, the rest will be duplicates -->
+      <button id="mpc-pad-0" class="mpc-pad">
+        <span>PAD 0</span>
+      </button>
+    </div>
   </body>
 </html>
