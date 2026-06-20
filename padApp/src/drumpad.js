@@ -2,10 +2,8 @@ const MPC_PAD_COUNT = 12;
 const MPC_PADS = [document.getElementById('mpc-pad-0')];
 const MPC_CONTAINER = document.getElementById('mpc-container');
 
-// TODO: run tone js noises
-
 const createPadPlayer = (index) => {
-  MPC_PADS[index].addEventListener("click", () => {
+  MPC_PADS[index].addEventListener('pointerdown', () => {
     onPadPressed(index);
   });
   // TODO: add sounds to pad
@@ -13,6 +11,7 @@ const createPadPlayer = (index) => {
 
 const onPadPressed = (index) => {
   console.log(`PRESSED PAD ${index}`);
+  window.electronAPI.sendMessage(`PRESSED PAD ${index}`);
 }
 
 const init = () => {
