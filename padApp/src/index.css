@@ -1,3 +1,7 @@
+:root {
+  --mpc-grid-width: 80vw;
+}
+
 * {
   box-sizing: border-box;
 
@@ -18,8 +22,8 @@ body {
 }
 
 #mpc-container {
-  width: 48vw;
-  height: 36vw;
+  width: var(--mpc-grid-width);
+  height: calc(var(--mpc-grid-width) * 0.75);
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, auto);
