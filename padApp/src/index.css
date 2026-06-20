@@ -34,6 +34,7 @@ body {
   border-radius: 15%;
   display: inline-block;
   background-color: oklch(46.969% 0.141 346.092);
+  cursor: pointer;
 }
 
 .mpc-pad>.label {
