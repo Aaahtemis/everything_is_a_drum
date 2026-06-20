@@ -4,6 +4,9 @@ const { Tone } = require('tone');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline')
 
+const serialPort = new SerialPort({ path: '/dev/ttyACM0', baudRate: 9600 });
+const readlineParser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -55,3 +58,13 @@ app.on('window-all-closed', () => {
 ipcMain.on('notify', (e, msg) => {
   console.log('received message: ', msg);
 })
+
+// Read data that is available but keep the stream from entering //"flowing mode"
+readlineParser.on('data', (data) => {
+  // which pad got pressed?
+  const pad = 15 & (data >> 4);
+  // velocity?
+  const velocity = 15 & data;
+
+  console.log(`pad: ${pad}, velocity: ${velocity}, data: ${data}`);
+});
