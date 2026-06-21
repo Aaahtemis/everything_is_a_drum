@@ -8,13 +8,13 @@ bool emaSeeded = false;
 float emAverage = 0;
 int sAverage[100];
 int lowerDeadZone = 100;
-int lowerMargin = 0;
+int lowerMargin = 20;
 
 float averageSmoothing = 0;
 
 int tickCount = 0;
 int tickCarryMoving = 1000;
-int tickCarrySimpleMod = 1000;
+int tickCarrySimpleMod = 1;
 
 bool isActive = false;
 
@@ -38,10 +38,9 @@ void setup() {
 
 void loop() {
   tickCount++;
-
-  // if (tickCount % tickCarryMoving / tickCarrySimpleMod) {
-    if(true){
-      uint8_t analogPin = A0;
+  if (tickCount % tickCarryMoving / tickCarrySimpleMod) {
+    
+    uint8_t analogPin = A0;
     for (int i = 0; i < 6; i++) {
       switch (i) {
         case 0:
@@ -72,7 +71,7 @@ void loop() {
       //Serial.println("normalized data: " + String(normalizedValue));
 
       if (normalizedValue > lowerMargin) {
-        Serial.println(String(0) + " sensor value : " + String(normalizedValue));
+        Serial.println(String(i) + " sensor value : " + String(normalizedValue));
         AddToStartOfArray(normalizedValue, sAverage, sizeof(sAverage) / sizeof(sAverage[0]));
         //FindExponentialAverage(sAverage[0]);
         digitalWrite(i + 2, HIGH);
