@@ -75,13 +75,16 @@ void loop() {
     
       if (normalizedValue > lowerMargin) {
         Serial.println(String(i) + " sensor value : " + String(normalizedValue));
-        Serial.write(i);
         AddToStartOfArray(normalizedValue, sAverage, sizeof(sAverage) / sizeof(sAverage[0]));
         //FindExponentialAverage(sAverage[0]);
         digitalWrite(i + 2, HIGH);
+        Serial.write(i);
+
         if (i == 0){
+          if (pad0) Serial.write(0);
           pad0 = true;
         } else if (i==1) {
+          if (pad1) Serial.write(1);
           pad1 = true;
         }
       } else {
