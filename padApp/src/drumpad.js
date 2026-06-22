@@ -29,11 +29,11 @@ const loadBank = async (name) => {
   if (name === 'default') {
     // request path from main process
     const path = await window.electronAPI.getData('path');
-    SOUNDBANK[0] = new Tone.Player(`${path}/Shaker5.wav`).toDestination();
-    SOUNDBANK[1] = new Tone.Player(`${path}/Perc10.wav`).toDestination();
-    SOUNDBANK[2] = new Tone.Player(`${path}/HouseKick5.wav`).toDestination();
-    SOUNDBANK[3] = new Tone.Player(`${path}/HouseSnare2.wav`).toDestination();
-    SOUNDBANK[4] = new Tone.Player(`${path}/Kick3.wav`).toDestination();
+    SOUNDBANK[0] = new Tone.Player(`${path}/Kick3.wav`).toDestination();
+    SOUNDBANK[1] = new Tone.Player(`${path}/HouseSnare2.wav`).toDestination();
+    SOUNDBANK[2] = new Tone.Player(`${path}/Shaker5.wav`).toDestination();
+    SOUNDBANK[3] = new Tone.Player(`${path}/Perc10.wav`).toDestination();
+    SOUNDBANK[4] = new Tone.Player(`${path}/HouseKick5.wav`).toDestination();
     SOUNDBANK[5] = new Tone.Player(`${path}/HouseCrash3.wav`).toDestination();
     SOUNDBANK[6] = new Tone.Player(`${path}/Biangle.wav`).toDestination();
     SOUNDBANK[7] = new Tone.Player(`${path}/Cowbell.wav`).toDestination();
