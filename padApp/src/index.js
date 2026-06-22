@@ -7,6 +7,8 @@ const { ReadlineParser } = require('@serialport/parser-readline');
 const serialPort = new SerialPort({ path: '/dev/ttyACM0', baudRate: 9600 });
 const readlineParser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
+let mainWindow;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -14,7 +16,7 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -57,13 +59,25 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
+const handlePadPressed = (pad, velocity) => {
+  if (!mainWindow) {
+    console.error(`tried to play pad ${pad} but window is not ready yet!`);
+    return;
+  }
+  mainWindow.webContents.send('mpc', {pad: pad, velocity: velocity});
+}
+
 ipcMain.handle('path', async (event, args) => {
   return path.join('file://', __dirname, 'sound');
 });
 
 readlineParser.on('data', (data) => {
-  const pad = 15 & (data >> 4);
-  const velocity = 15 & data;
-  handlePadPressed(pad, velocity);
-  console.log(`pad: ${pad}, velocity: ${velocity}, data: ${data}`);
+  console.log((data >>> 0).toString(2).padStart(8, '0'));
+  // const pad = 15 & (data >>> 4);
+  // const velocity = 15 & data;
+  const pad = data; // no bit shifting, temporarily
+  // console.log((pad >>> 0).toString(2).padStart(4, '0') + 
+  //             (velocity >>> 0).toString(2).padStart(4, '0'));
+  handlePadPressed(pad, 127);
+  // console.log(`pad: ${pad}, velocity: ${velocity}`, (data>>>0).toString(2));
 });

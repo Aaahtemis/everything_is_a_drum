@@ -4,5 +4,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  getData: () => ipcRenderer.invoke('path')
+  getData: () => ipcRenderer.invoke('path'),
+  onPadPressed: (callback) => {
+    ipcRenderer.on('mpc', (event, ...args) => callback(...args))
+  }
 });
