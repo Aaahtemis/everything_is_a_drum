@@ -1,8 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, protocol } = require('electron');
 const path = require('node:path');
-const { Tone } = require('tone');
+const fs = require('fs');
 const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline')
+const { ReadlineParser } = require('@serialport/parser-readline');
 
 const serialPort = new SerialPort({ path: '/dev/ttyACM0', baudRate: 9600 });
 const readlineParser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
@@ -19,6 +19,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
     },
   });
 
@@ -55,16 +56,14 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-ipcMain.on('notify', (e, msg) => {
-  console.log('received message: ', msg);
-})
 
-// Read data that is available but keep the stream from entering //"flowing mode"
+ipcMain.handle('path', async (event, args) => {
+  return __dirname;
+});
+
 readlineParser.on('data', (data) => {
-  // which pad got pressed?
   const pad = 15 & (data >> 4);
-  // velocity?
   const velocity = 15 & data;
-
+  handlePadPressed(pad, velocity);
   console.log(`pad: ${pad}, velocity: ${velocity}, data: ${data}`);
 });

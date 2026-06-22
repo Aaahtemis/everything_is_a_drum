@@ -4,5 +4,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  sendMessage: (msg) => ipcRenderer.send('notify', msg)
+  getData: () => ipcRenderer.invoke('path')
 });
