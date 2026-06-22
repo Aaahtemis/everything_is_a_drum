@@ -1,7 +1,7 @@
 const MPC_PAD_COUNT = 12;
 const MPC_PADS = [document.getElementById('mpc-pad-0')];
 const MPC_CONTAINER = document.getElementById('mpc-container');
-const SOUNDBANK = new Array(12).fill(null).map(() => (new Tone.Player()));
+const SOUNDBANK = new Array(12).fill(null);
 
 const createPadPlayer = (index) => {
   MPC_PADS[index].addEventListener('pointerdown', () => {
@@ -29,28 +29,23 @@ const loadBank = async (name) => {
   if (name === 'default') {
     // request path from main process
     const path = await window.electronAPI.getData('path');
-    SOUNDBANK[0] = new Tone.Player(`file://${path}/sound/CymaticsKick3.wav`).toDestination();
-    console.log(`set path: ${SOUNDBANK[0].url}`);
+    SOUNDBANK[0] = new Tone.Player(`${path}/CymaticsKick3.wav`).toDestination();
+    SOUNDBANK[1] = new Tone.Player(`${path}/CymaticsHouseCrash3.wav`).toDestination();
   }
 }
 
 const playSound = (pad, velocity) => {
   if (pad >= SOUNDBANK.length) {
-    console.log('nah bro');
+    console.error(`nah bro pad ${pad} does not exist`);
+    return;
+  }
+  if (!SOUNDBANK[pad]) {
+    console.error(`pad ${pad} player don't exist m8`);
     return;
   }
 
   SOUNDBANK[pad].start();
-  console.log('did sound play?');
-
-  // if (audioContext.state === 'suspended') {
-  //   audioContext.resume();
-  // }
-  // const source = audioContext.createBufferSource();
-  // source.buffer = padAudioBuffers[pad];
-  // source.connect(audioContext.destination);
-  // source.start();
-  // console.log(`played pad ${pad}`);
+  console.log(`played pad ${pad}`);
 }
 
 const onPadPressed = (pad) => {

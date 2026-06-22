@@ -58,7 +58,7 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and import them here.
 
 ipcMain.handle('path', async (event, args) => {
-  return __dirname;
+  return path.join('file://', __dirname, 'sound');
 });
 
 readlineParser.on('data', (data) => {
