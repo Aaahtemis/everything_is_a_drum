@@ -21,6 +21,9 @@ bool isActive = false;
 void AddToStartOfArray(int value, int array[], int length, bool doPrint = false);
 float FindExponentialAverage(int value);
 
+bool pad0;
+bool pad1;
+
 void setup() {
   Serial.begin(9600);
   //wdt_enable(WDTO_2S);
@@ -76,8 +79,18 @@ void loop() {
         AddToStartOfArray(normalizedValue, sAverage, sizeof(sAverage) / sizeof(sAverage[0]));
         //FindExponentialAverage(sAverage[0]);
         digitalWrite(i + 2, HIGH);
+        if (i == 0){
+          pad0 = true;
+        } else if (i==1) {
+          pad1 = true;
+        }
       } else {
         digitalWrite(i + 2, LOW);
+        if (i == 0){
+          pad0 = false;
+        } else if (i==1) {
+          pad1 = false;
+        }
       }
     }
   }
